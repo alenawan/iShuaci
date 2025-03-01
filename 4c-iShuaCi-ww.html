@@ -418,7 +418,7 @@
             totalTimeAllRounds += totalTime;
 
             const turnSummary = currentPhrases.map(([p, prep, isCorrect]) => 
-                `${isCorrect ? '✓' : 'x'} ${p.replace('______', prep)}`
+                `${isCorrect ? 'o' : 'x'} ${p.replace('______', prep)}`
             ).join('\n');
 
             alert(
