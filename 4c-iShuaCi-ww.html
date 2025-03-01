@@ -373,19 +373,17 @@
                 const [phrase, correctPrep] = currentPhrases[currentPhraseIndex];
                 const elapsedTime = (Date.now() - startTime) / 1000;
                 totalTime += elapsedTime;
-        
+
                 if (prep === correctPrep) {
                     resultLabel.textContent = '✓ 正确！';
                     resultLabel.style.color = 'green';
                     correctCount++;
                     score++;
-                    currentPhrases[currentPhraseIndex][2] = true; // 更新 isCorrect 为 true
                 } else {
                     resultLabel.textContent = `❌ 错误！正确答案是: ${correctPrep}`;
                     resultLabel.style.color = 'red';
-                    currentPhrases[currentPhraseIndex][2] = false; // 更新 isCorrect 为 false
                 }
-        
+
                 disableButtons();
                 currentPhraseIndex++;
                 setTimeout(updateInterface, 1000);
