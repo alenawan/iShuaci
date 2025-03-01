@@ -374,14 +374,13 @@
                 totalTime += elapsedTime;
 
                 if (prep === correctPrep) {
-                    resultLabel.textContent = '⭕ 正确！';
+                    resultLabel.textContent = '✓ 正确！';
                     resultLabel.style.color = 'green';
                     correctCount++;
                     score++;
                 } else {
                     resultLabel.textContent = `❌ 错误！正确答案是: ${correctPrep}`;
                     resultLabel.style.color = 'red';
-                    score--;
                 }
 
                 disableButtons();
@@ -416,7 +415,7 @@
             totalTimeAllRounds += totalTime;
 
             const turnSummary = currentPhrases.map(([p, prep, isCorrect]) => 
-                `${isCorrect ? '⭕' : '❌'} ${p.replace('______', prep)}`
+                `${isCorrect ? '✓' : '❌'} ${p.replace('______', prep)}`
             ).join('\n');
 
             alert(
