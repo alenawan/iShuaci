@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>介词填空练习</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .phrase {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .result {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .button {
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        .button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .button.correct {
+            background-color: green;
+        }
+        .button.incorrect {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>介词填空练习</h1>
+        <div id="round-turn-label" class="round-turn">第 1 轮，第 1 回合</div>
+        <div id="phrase-label" class="phrase"></div>
+        <div id="result-label" class="result"></div>
+        <div class="button-container" id="button-container">
+            <!-- Buttons will be dynamically generated here -->
+        </div>
+    </div>
+
+    <script>
+        const phrases = [
+            ["a bit ______", "of"],
+            ["a couple ______", "of"],
+            ["a kind ______", "of"],
+            ["a lot ______ (lots ______)", "of"],
+            ["a pair ______", "of"],
+            ["a piece ______", "of"],
+            ["according ______", "to"],
+            ["add…______…", "to"],
+            ["agree ______ sb.", "with"],
+            ["apologize ______ sb. ______ sth.", "to"],
+            ["arrive ______  the airport", "at"],
+            ["as…______", "as"],
+            ["as soon ______", "as"],
+            ["ask ______", "for"],
+            ["______ breakfast / lunch / supper", "at"],
+            ["______ first / last", "at"],
+            ["______ least / most", "at"],
+            ["______ once", "at"],
+            ["______ present", "at"],
+            ["______ the end of July", "at"],
+            ["______ the same time", "at"],
+            ["at / ______ weekends", "on"],
+            ["______ work", "at"],
+            ["based ______", "on"],
+            ["be able ______", "to"],
+            ["be afraid ______", "of"],
+            ["be angry ______ sb．", "with"],
+            ["be bad ______", "for"],
+            ["be busy ______ / doing sth．", "with"],
+            ["be careful ______", "with"],
+            ["be connected to/ ______", "with"],
+            ["be covered ______", "with"],
+            ["be different ______", "from"],
+            ["sb. be / get familiar ______ sth.", "to"],
+            ["be famous ______", "for"],
+            ["be fond ______", "of"],
+            ["be full ______", "of"],
+            ["be good / poor ______", "at"],
+            ["be interested ______", "in"],
+            ["be  ______ favour of", "in"],
+            ["be keen ______", "on"],
+            ["be late ______", "for"],
+            ["be located (in/on/______)", "at"],
+            ["be made ______ wood", "of"],
+            ["be made up ______ =consist ______", "of"],
+            ["be pleased ______", "with"],
+            ["be proud ______", "of"],
+            ["be ready ______", "for"],
+            ["be responsible ______", "for"],
+            ["be satisfied ______", "with"],
+            ["be similar ______", "to"],
+            ["be strict ______", "with"],
+            ["be surprised ______", "at"],
+            ["be thankful ______ sb．", "to"],
+            ["sb. be used ______ doing", "to"],
+            ["because ______", "of"],
+            ["belong ______", "to"],
+            ["______ bus/train/plane", "by"],
+            ["by oneself =______ one's own", "on"],
+            ["______ the way", "by"],
+            ["care ______ = take care", "for"],
+            ["check ______ at the hotel", "in"],
+            ["come ______ an end", "to"],
+            ["communicate ______", "with"],
+            ["compete ______…", "with"],
+            ["complain ______/of sth.", "about"],
+            ["consist ______", "of"],
+            ["cut ______ the noise", "down"],
+            ["deal ______", "with"],
+            ["depend ______", "on"],
+            ["die ______ hunger", "of"],
+            ["do harm ______", "to"],
+            ["dream ______", "of"],
+            ["dress ______", "up"],
+            ["encourage sb. ______ do sth.", "to"],
+            ["far away (______)", "from"],
+            ["fill ______", "in"],
+            ["find ______ secrets", "out"],
+            ["______ example", "for"],
+            ["______ free", "for"],
+            ["______ the first time", "for"],
+            ["______ the time being", "for"],
+            ["from time ______ time", "from"],
+            ["get along / on (______)", "with"],
+            ["get ______ the habit of", "into"],
+            ["get ______/off the bus", "on"],
+            ["get ready ______", "for"],
+            ["get rid ______", "of"],
+            ["get tired ______", "of"],
+            ["get ______ early", "up"],
+            ["never give ______", "up"],
+            ["go ______ a swim", "for"],
+            ["go ______ for", "in"],
+            ["go ______ working", "on"],
+            ["go ______ a diet", "on"],
+            ["go ______ a picnic", "on"],
+            ["go ______ with / doing sth.", "on"],
+            ["go ______ = review ", "over"],
+            ["go ______ (the)hospital", "to"],
+            ["go ______ bed", "to"],
+            ["go ______ college", "to"],
+            ["go ______ school", "to"],
+            ["go ______ sleep", "to"],
+            ["go ______ the cinema / movie(s)", "to"],
+            ["grow ______", "up"],
+            ["hand ______ your homework", "in"],
+            ["sb. happen ______ do", "to"],
+            ["sth. happen ______ sb．", "to"],
+            ["have pity ______ sb．", "on"],
+            ["hear ______ =receive a letter ______", "from"],
+            ["hear ______ him", "of"],
+            ["help sb. ______ sth．", "with"],
+            ["Hold ______, please!", "on"], 
+            ["take hold ______ my hand", "of"], 
+            ["______ addition", "in"],
+            ["______ a hurry", "in"],
+            ["______ a minute", "in"],
+            ["be in charge ______", "of"],
+            ["______ class", "in"],
+            ["______ danger", "in"],
+            ["______ English", "in"],
+            ["______ fact", "in"],
+            ["in favour ______", "of"],
+            ["______ hospital", "in"],
+            ["______ one's fifties", "in"],
+            ["______ one's opinion", "in"],
+            ["______ other words", "in"],
+            ["______ return", "in"],
+            ["______ surprise", "in"],
+            ["______ the end = at last", "in"],
+            ["______ the future", "in"],
+            ["in the middle ______", "of"],
+            ["______ the past", "in"],
+            ["______ trouble", "in"],
+            ["instead ______", "of"],
+            ["jump ______ a conclusion", "to"],
+            ["keep…______", "from"],
+            ["keep in touch (______)", "with"],
+            ["keep ______ the grass", "off"],
+            ["laugh ______", "at"],
+            ["learn ______ others", "from"],
+            ["leave ______ Beijing", "for"],
+            ["less / more ______", "than"],
+            ["listen ______", "to"],
+            ["live ______ bread and potatoes", "on"],
+            ["look ______ her cat", "after"],
+            ["look ______ the board", "at"],
+            ["look ______ the missing watch", "for"],
+            ["look forward ______ doing", "to"],
+            ["look ______! = Be careful! ", "out"],
+            ["look ______ a word in dictionary", "up"],
+            ["make friends ______", "with"],
+            ["make fun ______", "of"],
+            ["make ______ one's mind", "up"],
+            ["mean ______ ", "by"],
+            ["next ______", "to"],
+            ["______ average", "on"],
+            ["______ business", "on"],
+            ["______ foot", "on"],
+            ["______ holiday", "on"],
+            ["______ one's side", "on"],
+            ["______ the other hand", "on"],
+            ["______ the phone", "on"],
+            ["______ the/ one’s way (to)", "on"],
+            ["______ weekdays", "on"],
+            ["one ______ another", "after"],
+            ["______ of date", "out"],
+            ["______ and over", "over"],
+            ["pay attention ______", "to"],
+            ["pay ______ the bill", "for"],
+            ["pick ______ your favourite one", "out"],
+            ["pick ______ the rubbish", "up"],
+            ["play a trick ______", "on"],
+            ["play ______ water", "with"],
+            ["plenty ______", "of"],
+            ["point ______ my mistake", "out"],
+            ["praise sb. ______ sth.", "for"],
+            ["prefer...______", "to"],
+            ["prepare ______", "for"],
+            ["prevent…______", "from"],
+            ["protect...______", "from"],
+            ["provide sb. ______ sth.", "with"],
+            ["provide sth. ______ sb", "for"],
+            ["put ______ = delay", "off"],
+            ["put ______ a play ", "on"],
+            ["put ______ fires", "out"],
+            ["put ______ your hand/ a poster", "up"],
+            ["refer ______", "to"],
+            ["rely ______", "on"],
+            ["run ______", "away"],
+            ["run ______ of", "out"],
+            ["search ______", "for"],
+            ["see sb. ______", "off"],
+            ["sell ______", "out"],
+            ["shake hands ______", "with"],
+            ["share … ______", "with"],
+            ["show ______", "off"],
+            ["show sb. ______ spl.", "around"],
+            ["shut ______", "up"],
+            ["stand ______", "for"],
+            ["stay ______ late", "up"],
+            ["stop … ______", "from"],
+            ["such ______", "as"],
+            ["take a message ______ sb．", "for"],
+            ["take ______", "away"],
+            ["take care ______", "of"],
+            ["take charge ______", "of"],
+            ["take hold ______", "of"],
+            ["the plane will take ______ soon", "off"],
+            ["take part ______", "in"],
+            ["take the place ______", "of"],
+            ["take ______ fishing", "up"],
+            ["talk ______ music", "about"],
+            ["talk ______ / with sb", "to/with"],
+            ["tell A ______ B", "from"],
+            ["the same…______", "as"],
+            ["think ______ the question", "about"],
+            ["think ______ others more than himself", "of"],
+            ["throw ______ the rubbish", "away"],
+            ["______ one's joy / surprise", "to"],
+            ["too…______", "to"],
+            ["try ______ the coat", "on"],
+            ["turn ______/ down", "up"],
+            ["turn ______ ice", "into"],
+            ["turn on/______ the light", "off"],
+            ["turn ______ to be true", "out"],
+            ["turn ______ the fish", "over"],
+            ["sb. used ______ do", "to"],
+            ["wait ______", "for"],
+            ["wake ______", "up"],
+            ["______ great care", "with"],
+            ["______ pleasure", "with"],
+            ["______ the help of", "with"],
+            ["work ______", "out"],
+            ["worry ______", "about"],
+            ["would like / love (______)", "to"]
+        ];
+
+        const prepositions = [
+            "about", "after", "against", "around", "as", "at", 
+            "away", "by", "down", "for", "from", "in", "into", 
+            "like", "of", "off", "on", "out", "over", "than", 
+            "to", "up", "with"
+        ];
+
+        let currentPhraseIndex = 0;
+        let correctCount = 0;
+        let currentPhrases = [];
+        let score = 0;
+        let roundNumber = 0;
+        let turnNumber = 1;
+        const totalRounds = 5;
+        let startTime = 0;
+        let totalTime = 0;
+        let totalScore = 0;
+        let totalTimeAllRounds = 0;
+        let highestScore = 0;
+        let bestTime = 0;
+        let currentOptions = [];
+
+        const roundTurnLabel = document.getElementById('round-turn-label');
+        const phraseLabel = document.getElementById('phrase-label');
+        const resultLabel = document.getElementById('result-label');
+        const buttonContainer = document.getElementById('button-container');
+
+        function updateInterface() {
+            if (currentPhraseIndex < currentPhrases.length) {
+                const [phrase, correctPrep] = currentPhrases[currentPhraseIndex];
+                phraseLabel.textContent = phrase;
+                resultLabel.textContent = '';
+                startTime = Date.now();
+
+                const wrongPreps = prepositions.filter(p => p !== correctPrep);
+                const selectedWrongPreps = wrongPreps.sort(() => 0.5 - Math.random()).slice(0, 8);
+                currentOptions = [...selectedWrongPreps, correctPrep].sort(() => 0.5 - Math.random());
+
+                buttonContainer.innerHTML = '';
+                currentOptions.forEach(prep => {
+                    const button = document.createElement('button');
+                    button.textContent = prep;
+                    button.className = 'button';
+                    button.addEventListener('click', () => onButtonClick(prep));
+                    buttonContainer.appendChild(button);
+                });
+
+                setTimeout(checkTimeout, 5000);
+            } else {
+                endTurn();
+            }
+        }
+
+        function onButtonClick(prep) {
+            if (currentPhraseIndex < currentPhrases.length) {
+                const [phrase, correctPrep] = currentPhrases[currentPhraseIndex];
+                const elapsedTime = (Date.now() - startTime) / 1000;
+                totalTime += elapsedTime;
+
+                if (prep === correctPrep) {
+                    resultLabel.textContent = 'O 正确！';
+                    resultLabel.style.color = 'green';
+                    correctCount++;
+                    score++;
+                } else {
+                    resultLabel.textContent = `❌ 错误！正确答案是: ${correctPrep}`;
+                    resultLabel.style.color = 'red';
+                    score--;
+                }
+
+                disableButtons();
+                currentPhraseIndex++;
+                setTimeout(updateInterface, 1000);
+            }
+        }
+
+        function checkTimeout() {
+            if (currentPhraseIndex < currentPhrases.length) {
+                const [phrase, correctPrep] = currentPhrases[currentPhraseIndex];
+                const elapsedTime = (Date.now() - startTime) / 1000;
+                totalTime += elapsedTime;
+
+                if (elapsedTime >= 5) {
+                    resultLabel.textContent = `X  超时！正确答案是: ${correctPrep}`;
+                    resultLabel.style.color = 'red';
+                    currentPhraseIndex++;
+                    disableButtons();
+                    setTimeout(updateInterface, 1000);
+                }
+            }
+        }
+
+        function disableButtons() {
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach(button => button.disabled = true);
+        }
+
+        function endTurn() {
+            totalScore += score;
+            totalTimeAllRounds += totalTime;
+
+            const turnSummary = currentPhrases.map(([p, prep, isCorrect]) => 
+                `${isCorrect ? 'O' : 'X'} ${p.replace('______', prep)}`
+            ).join('\n');
+
+            alert(
+                `第 ${turnNumber} 回合结束\n` +
+                `本轮得分：${score}\n本轮用时：${Math.floor(totalTime)} 秒\n\n` +
+                `当前回合词组：\n${turnSummary}`
+            );
+
+            if (turnNumber < 5) {
+                turnNumber++;
+                currentPhraseIndex = 0;
+                correctCount = 0;
+                score = 0;
+                totalTime = 0;
+                currentPhrases = phrases.sort(() => 0.5 - Math.random()).slice(0, 5);
+                roundTurnLabel.textContent = `第 ${roundNumber} 轮，第 ${turnNumber} 回合`;
+                updateInterface();
+            } else {
+                endRound();
+            }
+        }
+
+        function endRound() {
+            if (totalScore > highestScore) {
+                highestScore = totalScore;
+                bestTime = totalTimeAllRounds;
+            }
+
+            alert(
+                `第 ${roundNumber} 轮结束\n` +
+                `本轮总得分：${totalScore}\n本轮总用时：${Math.floor(totalTimeAllRounds)} 秒\n\n` +
+                `历史最高分：${highestScore}（总用时：${Math.floor(bestTime)} 秒）`
+            );
+
+            if (confirm('是否开始下一轮？')) {
+                resetRound();
+            } else {
+                // 结束游戏
+            }
+        }
+
+        function resetRound() {
+            roundNumber++;
+            turnNumber = 1;
+            totalScore = 0;
+            totalTimeAllRounds = 0;
+            currentPhraseIndex = 0;
+            correctCount = 0;
+            score = 0;
+            totalTime = 0;
+            currentPhrases = phrases.sort(() => 0.5 - Math.random()).slice(0, 5);
+            roundTurnLabel.textContent = `第 ${roundNumber} 轮，第 ${turnNumber} 回合`;
+            updateInterface();
+        }
+
+        resetRound();
+    </script>
+</body>
+</html
