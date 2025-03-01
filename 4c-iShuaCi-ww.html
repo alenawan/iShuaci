@@ -52,6 +52,11 @@
         }
         .button.incorrect {
             background-color: red;
+        .copyright {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -64,6 +69,9 @@
         <div class="button-container" id="button-container">
             <!-- Buttons will be dynamically generated here -->
         </div>
+        <div class="copyright">
+        &copy; 2025 万碧君. 版权所有.
+    </div>
     </div>
 
     <script>
@@ -366,7 +374,7 @@
                 totalTime += elapsedTime;
 
                 if (prep === correctPrep) {
-                    resultLabel.textContent = 'O 正确！';
+                    resultLabel.textContent = '⭕ 正确！';
                     resultLabel.style.color = 'green';
                     correctCount++;
                     score++;
@@ -389,7 +397,7 @@
                 totalTime += elapsedTime;
 
                 if (elapsedTime >= 5) {
-                    resultLabel.textContent = `X  超时！正确答案是: ${correctPrep}`;
+                    resultLabel.textContent = `❌  超时！正确答案是: ${correctPrep}`;
                     resultLabel.style.color = 'red';
                     currentPhraseIndex++;
                     disableButtons();
@@ -408,7 +416,7 @@
             totalTimeAllRounds += totalTime;
 
             const turnSummary = currentPhrases.map(([p, prep, isCorrect]) => 
-                `${isCorrect ? 'O' : 'X'} ${p.replace('______', prep)}`
+                `${isCorrect ? '⭕' : '❌'} ${p.replace('______', prep)}`
             ).join('\n');
 
             alert(
