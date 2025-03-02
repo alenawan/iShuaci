@@ -134,9 +134,13 @@
             ["sb. be used ______ doing", "to"],
             ["because ______", "of"],
             ["belong ______", "to"],
+            ["break ______ the house", "into"],
+            ["a war broke ______", "out"],
+            ["the computer broke ______", "down"],
             ["______ bus/train/plane", "by"],
             ["by oneself =______ one's own", "on"],
             ["______ the way", "by"],
+            ["calm ______", "bown"],
             ["care ______ = take care", "for"],
             ["check ______ at the hotel", "in"],
             ["come ______ an end", "to"],
@@ -169,8 +173,9 @@
             ["get ______ early", "up"],
             ["never give ______", "up"],
             ["go ______ a swim", "for"],
-            ["go ______ for", "in"],
+            ["go ______ for sports", "in"],
             ["go ______ working", "on"],
+            ["go ______ your work", "with"],
             ["go ______ a diet", "on"],
             ["go ______ a picnic", "on"],
             ["go ______ with / doing sth.", "on"],
@@ -181,13 +186,14 @@
             ["go ______ school", "to"],
             ["go ______ sleep", "to"],
             ["go ______ the cinema / movie(s)", "to"],
+            ["lights go ______ ", "out"],
             ["grow ______", "up"],
             ["hand ______ your homework", "in"],
             ["sb. happen ______ do", "to"],
             ["sth. happen ______ sb．", "to"],
             ["have pity ______ sb．", "on"],
             ["hear ______ =receive a letter ______", "from"],
-            ["hear ______ him", "of"],
+            ["hear ______ her story", "of"],
             ["help sb. ______ sth．", "with"],
             ["Hold ______, please!", "on"], 
             ["take hold ______ my hand", "of"], 
@@ -418,7 +424,7 @@
             totalTimeAllRounds += totalTime;
 
             const turnSummary = currentPhrases.map(([p, prep, isCorrect]) => 
-                `${isCorrect ? 'o' : 'x'} ${p.replace('______', prep)}`
+                `${isCorrect ? '' : '>>>'} ${p.replace('______', prep)}`
             ).join('\n');
 
             alert(
