@@ -486,9 +486,23 @@
             correctCount = 0;
             score = 0;
             totalTime = 0;
-            currentPhrases = phrases.sort(() => 0.5 - Math.random()).slice(0, 5);
+          	usedPhrases.clear(); // 清空已使用的词组集合
+            selectUniquePhrases();
             roundTurnLabel.textContent = `第 ${roundNumber} 轮，第 ${turnNumber} 回合`;
             updateInterface();
+        }
+
+        const usedPhrases = new Set();
+        function selectUniquePhrases() {
+            currentPhrases = [];
+            const availablePhrases = phrases.filter(([phrase]) => !usedPhrases.has(phrase));
+    
+            while (currentPhrases.length < 5 && availablePhrases.length > 0) {
+                const randomIndex = Math.floor(Math.random() * availablePhrases.length);
+                const selectedPhrase = availablePhrases.splice(randomIndex, 1)[0];
+                usedPhrases.add(selectedPhrase[0]);
+                currentPhrases.push([...selectedPhrase]);
+            }
         }
 
         resetRound();
