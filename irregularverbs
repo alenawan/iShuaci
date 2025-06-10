@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中考英语不规则动词复习</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', 'Marker Felt', '微软雅黑', sans-serif;
+            background-color: #f0f9ff;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 150, 255, 0.1);
+            border: 3px solid #4fc3f7;
+        }
+        h1 {
+            color: #0288d1;
+            text-align: center;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .verbs-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .verb-column {
+            width: 48%;
+        }
+        .verb-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #e1f5fe;
+            border-radius: 8px;
+            border-left: 5px solid #4fc3f7;
+        }
+        .blank {
+            color: #0288d1;
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .answer {
+            color: #0288d1;
+            font-weight: bold;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        #generate {
+            background-color: #4caf50;
+            color: white;
+        }
+        #showAnswers {
+            background-color: #2196f3;
+            color: white;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        .emoji {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="emoji">📚</span>中考英语不规则动词复习<span class="emoji">✏️</span></h1>
+        
+        <div class="verbs-container" id="verbsList">
+            <!-- 动词列表将在这里动态生成 -->
+        </div>
+        
+        <div class="buttons">
+            <button id="generate"><span class="emoji">🎲</span>随机生成</button>
+            <button id="showAnswers"><span class="emoji">👀</span>显示答案</button>
+        </div>
+    </div>
+
+    <script>
+        // 不规则动词数据 - 简化为数组形式 [base, past, participle]
+        const irregularVerbs = [
+            ["awake", "awoke", "awoken"],
+            ["be (am/is/are)", "was/were", "been"],
+            ["bear", "bore", "born"],
+            ["beat", "beat", "beaten"],
+            ["become", "became", "become"],
+            ["begin", "began", "begun"],
+            ["bite", "bit", "bitten"],
+            ["blow", "blew", "blown"],
+            ["break", "broke", "broken"],
+            ["bring", "brought", "brought"],
+            ["build", "built", "built"],
+            ["burn", "burnt/burned", "burnt/burned"],
+            ["buy", "bought", "bought"],
+            ["catch", "caught", "caught"],
+            ["choose", "chose", "chosen"],
+            ["come", "came", "come"],
+            ["cost", "cost", "cost"],
+            ["cut", "cut", "cut"],
+            ["deal", "dealt", "dealt"],
+            ["dig", "dug", "dug"],
+            ["do", "did", "done"],
+            ["draw", "drew", "drawn"],
+            ["dream", "dreamt/dreamed", "dreamt/dreamed"],
+            ["drink", "drank", "drunk"],
+            ["drive", "drove", "driven"],
+            ["eat", "ate", "eaten"],
+            ["fall", "fell", "fallen"],
+            ["feed", "fed", "fed"],
+            ["feel", "felt", "felt"],
+            ["fight", "fought", "fought"],
+            ["find", "found", "found"],
+            ["fly", "flew", "flown"],
+            ["forget", "forgot", "forgotten"],
+            ["freeze", "froze", "frozen"],
+            ["get", "got", "got/gotten"],
+            ["give", "gave", "given"],
+            ["go", "went", "gone"],
+            ["grow", "grew", "grown"],
+            ["hang", "hung", "hung"],
+            ["have", "had", "had"],
+            ["hear", "heard", "heard"],
+            ["hide", "hid", "hidden"],
+            ["hit", "hit", "hit"],
+            ["hold", "held", "held"],
+            ["hurt", "hurt", "hurt"],
+            ["keep", "kept", "kept"],
+            ["know", "knew", "known"],
+            ["lay", "laid", "laid"],
+            ["lead", "led", "led"],
+            ["learn", "learnt/learned", "learnt/learned"],
+            ["leave", "left", "left"],
+            ["lend", "lent", "lent"],
+            ["let", "let", "let"],
+            ["lie", "lay", "lain"],
+            ["lose", "lost", "lost"],
+            ["make", "made", "made"],
+            ["mean", "meant", "meant"],
+            ["meet", "met", "met"],
+            ["mistake", "mistook", "mistaken"],
+            ["pay", "paid", "paid"],
+            ["put", "put", "put"],
+            ["read", "read", "read"],
+            ["ride", "rode", "ridden"],
+            ["ring", "rang", "rung"],
+            ["rise", "rose", "risen"],
+            ["run", "ran", "run"],
+            ["say", "said", "said"],
+            ["see", "saw", "seen"],
+            ["sell", "sold", "sold"],
+            ["send", "sent", "sent"],
+            ["set", "set", "set"],
+            ["shake", "shook", "shaken"],
+            ["shine", "shone", "shone"],
+            ["shoot", "shot", "shot"],
+            ["show", "showed", "shown"],
+            ["shut", "shut", "shut"],
+            ["sing", "sang", "sung"],
+            ["sit", "sat", "sat"],
+            ["sleep", "slept", "slept"],
+            ["smell", "smelt", "smelt"],
+            ["speak", "spoke", "spoken"],
+            ["spell", "spelt", "spelt"],
+            ["spend", "spent", "spent"],
+            ["spread", "spread", "spread"],
+            ["stand", "stood", "stood"],
+            ["steal", "stole", "stolen"],
+            ["stick", "stuck", "stuck"],
+            ["strike", "struck", "struck"],
+            ["sweep", "swept", "swept"],
+            ["swim", "swam", "swum"],
+            ["take", "took", "taken"],
+            ["teach", "taught", "taught"],
+            ["tell", "told", "told"],
+            ["think", "thought", "thought"],
+            ["throw", "threw", "thrown"],
+            ["understand", "understood", "understood"],
+            ["wake", "woke", "woken"],
+            ["wear", "wore", "worn"],
+            ["win", "won", "won"],
+            ["write", "wrote", "written"]
+        ];
+
+        // 获取随机动词
+        function getRandomVerbs(count) {
+            const shuffled = [...irregularVerbs].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        // 生成动词列表
+        function generateVerbsList(showAnswers = false) {
+            const verbsList = document.getElementById('verbsList');
+            verbsList.innerHTML = '';
+            
+            const randomVerbs = getRandomVerbs(20);
+            
+            // 创建两列
+            const column1 = document.createElement('div');
+            column1.className = 'verb-column';
+            
+            const column2 = document.createElement('div');
+            column2.className = 'verb-column';
+            
+            // 填充列
+            randomVerbs.forEach((verb, index) => {
+                const verbItem = document.createElement('div');
+                verbItem.className = 'verb-item';
+                
+                // 随机决定显示哪个部分（0:base, 1:past, 2:participle）
+                const showPart = Math.floor(Math.random() * 3);
+                
+                let verbText = `${index + 1}. `;
+                
+                // 构建显示文本
+                if (showPart === 0) {
+                    // 显示base
+                    verbText += `${verb[0]} - <span class="blank" data-answer="${verb[1]}">______</span> - <span class="blank" data-answer="${verb[2]}">______</span>`;
+                } else if (showPart === 1) {
+                    // 显示past
+                    verbText += `<span class="blank" data-answer="${verb[0]}">______</span> - ${verb[1]} - <span class="blank" data-answer="${verb[2]}">______</span>`;
+                } else {
+                    // 显示participle
+                    verbText += `<span class="blank" data-answer="${verb[0]}">______</span> - <span class="blank" data-answer="${verb[1]}">______</span> - ${verb[2]}`;
+                }
+                
+                verbItem.innerHTML = verbText;
+                
+                // 如果显示答案，直接填充
+                if (showAnswers) {
+                    const blanks = verbItem.querySelectorAll('.blank');
+                    blanks.forEach(blank => {
+                        blank.textContent = blank.dataset.answer;
+                        blank.classList.add('answer');
+                    });
+                }
+                
+                if (index < 10) {
+                    column1.appendChild(verbItem);
+                } else {
+                    column2.appendChild(verbItem);
+                }
+            });
+            
+            verbsList.appendChild(column1);
+            verbsList.appendChild(column2);
+        }
+
+        // 显示答案
+        function showAnswers() {
+            const blanks = document.querySelectorAll('.blank');
+            blanks.forEach(blank => {
+                blank.textContent = blank.dataset.answer;
+                blank.classList.add('answer');
+            });
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            generateVerbsList();
+            
+            document.getElementById('generate').addEventListener('click', () => {
+                generateVerbsList();
+                document.getElementById('showAnswers').innerHTML = '<span class="emoji">👀</span>显示答案';
+            });
+            
+            document.getElementById('showAnswers').addEventListener('click', () => {
+                const button = document.getElementById('showAnswers');
+                if (button.textContent.includes('显示')) {
+                    showAnswers();
+                    button.innerHTML = '<span class="emoji">🙈</span>隐藏答案';
+                } else {
+                    generateVerbsList(false);
+                    button.innerHTML = '<span class="emoji">👀</span>显示答案';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
